@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-core:
-    name: Build platform-independent core
+  build-and-test-core:
+    name: Build and test platform-independent core
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,6 +18,8 @@ jobs:
           dotnet-version: 8.0.x
       - name: Build core library
         run: dotnet build src/ProtestCallout.Core/ProtestCallout.Core.csproj --configuration Release
+      - name: Run regression tests
+        run: dotnet run --project tests/ProtestCallout.Core.Tests/ProtestCallout.Core.Tests.csproj --configuration Release
       - name: Upload core build
         uses: actions/upload-artifact@v4
         with:
