@@ -9,8 +9,6 @@ namespace ProtestCallout.Core.Configuration
         public int PoliceLineCount { get; set; } = 11;
         public int SpawnIntervalMs { get; set; } = 35;
         public int CivilianWanderChancePercent { get; set; } = 25;
-        public bool EnableRoadBlockade { get; set; } = true;
-        public bool EnableStagedIncidents { get; set; } = true;
 
         public void Validate()
         {
