@@ -23,30 +23,35 @@ namespace ProtestCallout.Plugin.Callouts
 
             ShowCalloutAreaBlipBeforeAccepting(_sceneCenter, 90f);
             AddMinimumDistanceCheck(40f, _sceneCenter);
-            CalloutMessage = "Reports of a large public disturbance";
+            CalloutMessage = "Reports of a large public gathering";
             CalloutPosition = _sceneCenter;
 
-            return base.OnBeforeCalloutDisplayed();
+            if (!base.OnBeforeCalloutDisplayed())
+                return false;
+
+            // Start preparing the scene before the player accepts and travels to it.
+            // This gives the crowd time to populate before the player arrives.
+            _scene = new CrowdScene();
+            _scene.Begin(_sceneCenter, PluginSettings.Current);
+            return true;
         }
 
         public override bool OnCalloutAccepted()
         {
             if (_usedThisSession)
+            {
+                CleanupScene();
                 return false;
+            }
 
             _usedThisSession = true;
-            _scene = new CrowdScene();
-            _scene.Begin(_sceneCenter, PluginSettings.Current);
-
-            Game.DisplayNotification("A large crowd and a police line are at the reported location.");
+            Game.DisplayNotification("A large gathering and a police line are already at the location.");
             return base.OnCalloutAccepted();
         }
 
         public override void OnCalloutNotAccepted()
         {
-            if (_scene != null)
-                _scene.Cleanup();
-
+            CleanupScene();
             base.OnCalloutNotAccepted();
         }
 
@@ -60,13 +65,17 @@ namespace ProtestCallout.Plugin.Callouts
 
         public override void End()
         {
-            if (_scene != null)
-            {
-                _scene.Cleanup();
-                _scene = null;
-            }
-
+            CleanupScene();
             base.End();
+        }
+
+        private void CleanupScene()
+        {
+            if (_scene == null)
+                return;
+
+            _scene.Cleanup();
+            _scene = null;
         }
     }
 }
