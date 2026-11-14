@@ -16,6 +16,7 @@ namespace ProtestCallout.Plugin.Configuration
             string path = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Plugins",
+                "LSPDFR",
                 "GTAProtestCallout.ini");
 
             try
