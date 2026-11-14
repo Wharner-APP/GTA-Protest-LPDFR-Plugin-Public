@@ -6,7 +6,8 @@ A GTA V + LSPDFR public-disturbance callout project. Development is taking place
 
 - A 75% random gate is evaluated once when the player first goes on duty during a plugin session.
 - If enabled, the callout is registered with LSPDFR.
-- The first accepted occurrence builds a scene with 100–125 civilian participants by default and a separate line of 11 police NPCs.
+- When LSPDFR selects the callout to display, scene population starts before the player accepts and travels to the location: 100–125 civilians by default and a separate line of 11 police NPCs.
+- If the player declines the callout, the partially created scene is cleaned up.
 - Civilian groups use simple ambient idle/wander tasks to limit AI overhead.
 - The police line is assigned hold-position tasks only. No automatic attack or pursuit is started.
 - All created pedestrians are tracked and removed when the callout ends.
