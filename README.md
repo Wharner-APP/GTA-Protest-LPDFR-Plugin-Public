@@ -59,7 +59,7 @@ Run PowerShell from the repository:
 
 Replace the example directory with the folder containing your `GTA5.exe`. The script checks both references and builds the plugin without copying files into the game directory.
 
-After a successful build, copy these three files from `src/ProtestCallout.Plugin/bin/Release/net472/` into the GTA V `Plugins` directory:
+After a successful build, copy these three files from `src/ProtestCallout.Plugin/bin/Release/net472/` into `GTA V\Plugins\LSPDFR`:
 
 - `GTAProtestCallout.dll`
 - `ProtestCallout.Core.dll`
@@ -84,4 +84,4 @@ The implementation was started against the LSPDFR 0.4.9 API shape. The current L
 
 ## Performance notes
 
-A 100–125 civilian scene plus 11 officers is demanding for GTA V. Pedestrians are spawned gradually rather than in one synchronous burst. This is an initial scene prototype, not a guarantee of stable performance on every PC or every game configuration. The next optimization pass should add distance-based AI activation, spawn-failure fallback, and dynamic cleanup for streamed-out entities.
+A 100–125 civilian scene plus 11 officers is demanding for GTA V. Pedestrians are spawned gradually rather than in one synchronous burst. This is an initial scene prototype, not a guarantee of stable performance on every PC or every game configuration. The current build does not yet create vehicle fires, physical road barriers, combat scenes, or shop-looting events.
