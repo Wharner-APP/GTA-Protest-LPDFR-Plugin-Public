@@ -31,8 +31,6 @@ namespace ProtestCallout.Plugin.Configuration
                     settings.PoliceLineCount = ReadInt(values, "PoliceLineCount", settings.PoliceLineCount);
                     settings.SpawnIntervalMs = ReadInt(values, "SpawnIntervalMs", settings.SpawnIntervalMs);
                     settings.CivilianWanderChancePercent = ReadInt(values, "CivilianWanderChancePercent", settings.CivilianWanderChancePercent);
-                    settings.EnableRoadBlockade = ReadBool(values, "EnableRoadBlockade", settings.EnableRoadBlockade);
-                    settings.EnableStagedIncidents = ReadBool(values, "EnableStagedIncidents", settings.EnableStagedIncidents);
                 }
                 else
                 {
@@ -84,13 +82,5 @@ namespace ProtestCallout.Plugin.Configuration
                 : fallback;
         }
 
-        private static bool ReadBool(Dictionary<string, string> values, string key, bool fallback)
-        {
-            string value;
-            bool parsed;
-            return values.TryGetValue(key, out value) && bool.TryParse(value, out parsed)
-                ? parsed
-                : fallback;
-        }
     }
 }
