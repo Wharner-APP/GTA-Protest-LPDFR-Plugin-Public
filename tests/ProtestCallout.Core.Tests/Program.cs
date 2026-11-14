@@ -1,3 +1,4 @@
+using ProtestCallout.Core.Configuration;
 using ProtestCallout.Core.Crowd;
 using ProtestCallout.Core.Session;
 
@@ -47,6 +48,23 @@ Run("crowd plan rejects fewer than 100 civilians", () =>
     try { _ = CrowdPlan.Create(99, 11); }
     catch (ArgumentOutOfRangeException) { threw = true; }
     Assert(threw, "A 99-person civilian crowd must be rejected.");
+});
+
+Run("default INI settings pass validation", () =>
+{
+    var settings = new CalloutSettings();
+    settings.Validate();
+    Assert(settings.SessionChancePercent == 75, "Default session chance should be 75%.");
+    Assert(settings.MinimumCrowdSize >= 100, "Default crowd must contain at least 100 civilians.");
+});
+
+Run("settings reject unsafe crowd-size values", () =>
+{
+    var settings = new CalloutSettings { MinimumCrowdSize = 99 };
+    bool threw = false;
+    try { settings.Validate(); }
+    catch (ArgumentOutOfRangeException) { threw = true; }
+    Assert(threw, "Minimum crowd size below 100 must be rejected.");
 });
 
 Console.WriteLine($"Passed {passed} core tests.");
