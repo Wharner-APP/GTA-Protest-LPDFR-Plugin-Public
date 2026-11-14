@@ -32,16 +32,17 @@ if ($LASTEXITCODE -ne 0) {
 $buildDir = Join-Path (Split-Path $project -Parent) "bin\$Configuration\net472"
 $pluginDll = Join-Path $buildDir "GTAProtestCallout.dll"
 $coreDll = Join-Path $buildDir "ProtestCallout.Core.dll"
+$settingsIni = Join-Path $buildDir "GTAProtestCallout.ini"
 
-if (-not (Test-Path -LiteralPath $pluginDll -PathType Leaf)) {
-    throw "Build completed without expected plugin output: $pluginDll"
-}
-if (-not (Test-Path -LiteralPath $coreDll -PathType Leaf)) {
-    throw "Build completed without expected core output: $coreDll"
+foreach ($file in @($pluginDll, $coreDll, $settingsIni)) {
+    if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {
+        throw "Build output is missing: $file"
+    }
 }
 
 Write-Host ""
 Write-Host "Build succeeded."
-Write-Host "Plugin: $pluginDll"
-Write-Host "Core:   $coreDll"
-Write-Host "Copy both DLL files to the GTA V Plugins folder for a local test."
+Write-Host "Plugin:   $pluginDll"
+Write-Host "Core:     $coreDll"
+Write-Host "Settings: $settingsIni"
+Write-Host "Copy all three files to the GTA V Plugins folder for a local test."
