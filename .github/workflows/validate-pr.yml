@@ -1,0 +1,25 @@
+name: Validate PR
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-core:
+    name: Build and test core
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build core library
+        run: dotnet build src/ProtestCallout.Core/ProtestCallout.Core.csproj --configuration Release
+      - name: Run regression tests
+        run: dotnet run --project tests/ProtestCallout.Core.Tests/ProtestCallout.Core.Tests.csproj --configuration Release
+      - name: Upload core build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProtestCallout-Core
+          path: src/ProtestCallout.Core/bin/Release/netstandard2.0/
