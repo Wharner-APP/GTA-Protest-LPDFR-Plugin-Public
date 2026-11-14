@@ -11,12 +11,16 @@ $ErrorActionPreference = "Stop"
 $resolvedGameDir = (Resolve-Path -LiteralPath $Gta5Dir).Path
 $rageSdk = Join-Path $resolvedGameDir "SDK\RagePluginHook.dll"
 $lspdfrApi = Join-Path $resolvedGameDir "Plugins\LSPD First Response.dll"
+$calloutDirectory = Join-Path $resolvedGameDir "Plugins\LSPDFR"
 
 if (-not (Test-Path -LiteralPath $rageSdk -PathType Leaf)) {
     throw "RAGE Plugin Hook SDK assembly not found: $rageSdk"
 }
 if (-not (Test-Path -LiteralPath $lspdfrApi -PathType Leaf)) {
     throw "LSPDFR API assembly not found: $lspdfrApi"
+}
+if (-not (Test-Path -LiteralPath $calloutDirectory -PathType Container)) {
+    throw "LSPDFR callout directory not found: $calloutDirectory"
 }
 
 $project = Join-Path $PSScriptRoot "..\src\ProtestCallout.Plugin\ProtestCallout.Plugin.csproj"
