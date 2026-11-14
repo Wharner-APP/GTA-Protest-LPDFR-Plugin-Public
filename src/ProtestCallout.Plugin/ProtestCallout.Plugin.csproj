@@ -25,6 +25,12 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="GTAProtestCallout.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="CheckGameSdkReferences" BeforeTargets="ResolveReferences">
     <Error Condition="'$(Gta5Dir)' == ''" Text="Set Gta5Dir (or GTAV_DIR) to your GTA V installation directory." />
     <Error Condition="!Exists('$(Gta5Dir)\SDK\RagePluginHook.dll')" Text="RagePluginHook.dll was not found under $(Gta5Dir)\SDK. Install RAGE Plugin Hook and verify the SDK path." />
