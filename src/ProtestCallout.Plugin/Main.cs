@@ -1,7 +1,7 @@
-using System;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using ProtestCallout.Core.Session;
+using ProtestCallout.Plugin.Configuration;
 
 namespace ProtestCallout.Plugin
 {
@@ -15,7 +15,8 @@ namespace ProtestCallout.Plugin
 
         public override void Initialize()
         {
-            _sessionGate = new SessionCalloutGate(75);
+            PluginSettings.Load();
+            _sessionGate = new SessionCalloutGate(PluginSettings.Current.SessionChancePercent);
             Functions.OnOnDutyStateChanged += OnDutyStateChanged;
             Game.LogTrivial("[GTAProtestCallout] Loaded. Waiting for the first on-duty transition.");
         }
@@ -27,7 +28,7 @@ namespace ProtestCallout.Plugin
 
             if (!_sessionGate.ShouldSchedule)
             {
-                Game.LogTrivial("[GTAProtestCallout] The 75% session roll did not schedule this event.");
+                Game.LogTrivial("[GTAProtestCallout] Session roll did not schedule this event.");
                 return;
             }
 
