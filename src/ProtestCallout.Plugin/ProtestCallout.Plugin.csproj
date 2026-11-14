@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>GTAProtestCallout</AssemblyName>
+    <RootNamespace>ProtestCallout.Plugin</RootNamespace>
+    <Gta5Dir Condition="'$(Gta5Dir)' == ''">$(GTAV_DIR)</Gta5Dir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProtestCallout.Core\ProtestCallout.Core.csproj" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RagePluginHook">
+      <HintPath>$(Gta5Dir)\SDK\RagePluginHook.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LSPD_First_Response">
+      <HintPath>$(Gta5Dir)\Plugins\LSPD First Response.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CheckGameSdkReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="'$(Gta5Dir)' == ''" Text="Set Gta5Dir (or GTAV_DIR) to your GTA V installation directory." />
+    <Error Condition="!Exists('$(Gta5Dir)\SDK\RagePluginHook.dll')" Text="RagePluginHook.dll was not found under $(Gta5Dir)\SDK. Install RAGE Plugin Hook and verify the SDK path." />
+    <Error Condition="!Exists('$(Gta5Dir)\Plugins\LSPD First Response.dll')" Text="LSPD First Response.dll was not found under $(Gta5Dir)\Plugins. Verify the LSPDFR installation." />
+  </Target>
+</Project>
