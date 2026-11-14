@@ -1,6 +1,7 @@
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage;
+using ProtestCallout.Plugin.Configuration;
 using ProtestCallout.Plugin.Systems;
 
 namespace ProtestCallout.Plugin.Callouts
@@ -35,7 +36,7 @@ namespace ProtestCallout.Plugin.Callouts
 
             _usedThisSession = true;
             _scene = new CrowdScene();
-            _scene.Begin(_sceneCenter);
+            _scene.Begin(_sceneCenter, PluginSettings.Current);
 
             Game.DisplayNotification("A large crowd and a police line are at the reported location.");
             return base.OnCalloutAccepted();
