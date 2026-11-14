@@ -16,7 +16,6 @@ namespace ProtestCallout.Core.Crowd
     public sealed class CrowdPlan
     {
         public IReadOnlyDictionary<ParticipantRole, int> Counts { get; }
-
         public int TotalCivilians { get; }
 
         private CrowdPlan(Dictionary<ParticipantRole, int> counts, int totalCivilians)
@@ -25,7 +24,7 @@ namespace ProtestCallout.Core.Crowd
             TotalCivilians = totalCivilians;
         }
 
-        /// <summary>Creates a balanced crowd composition without spawning game entities.</summary>
+        /// <summary>Creates a crowd composition plan without spawning game entities.</summary>
         public static CrowdPlan Create(int civilianCount, int riotOfficerCount)
         {
             if (civilianCount < 100)
@@ -33,16 +32,17 @@ namespace ProtestCallout.Core.Crowd
             if (riotOfficerCount < 1)
                 throw new ArgumentOutOfRangeException(nameof(riotOfficerCount));
 
-            int peaceful = (int)Math.Round(civilianCount * 0.52, MidpointRounding.AwayFromZero);
-            int agitated = (int)Math.Round(civilianCount * 0.18, MidpointRounding.AwayFromZero);
-            int witnesses = (int)Math.Round(civilianCount * 0.08, MidpointRounding.AwayFromZero);
-            int observers = civilianCount - peaceful - agitated - witnesses;
+            int peaceful = (int)Math.Round(civilianCount * 0.45, MidpointRounding.AwayFromZero);
+            int agitated = (int)Math.Round(civilianCount * 0.15, MidpointRounding.AwayFromZero);
+            int bystanders = (int)Math.Round(civilianCount * 0.20, MidpointRounding.AwayFromZero);
+            int witnesses = (int)Math.Round(civilianCount * 0.10, MidpointRounding.AwayFromZero);
+            int observers = civilianCount - peaceful - agitated - bystanders - witnesses;
 
             var counts = new Dictionary<ParticipantRole, int>
             {
                 [ParticipantRole.PeacefulProtester] = peaceful,
                 [ParticipantRole.AgitatedProtester] = agitated,
-                [ParticipantRole.Bystander] = civilianCount - peaceful - agitated - witnesses - observers,
+                [ParticipantRole.Bystander] = bystanders,
                 [ParticipantRole.ShopWitness] = witnesses,
                 [ParticipantRole.RoadsideObserver] = observers,
                 [ParticipantRole.RiotOfficer] = riotOfficerCount
